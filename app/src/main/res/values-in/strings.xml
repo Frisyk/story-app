@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BeStory</string>
+    <string name="login">Masuk</string>
+    <string name="message_welcome_page">Bergabung dan bagikan kisah menarik Anda di sini bersama kami</string>
+    <string name="title_welcome_page">Selamat Datang!!</string>
+    <string name="title_signup_page">Silakan lengkapi data Anda terlebih dahulu</string>
+    <string name="email">Email</string>
+    <string name="password">Kata Sandi</string>
+    <string name="message_login_page">Silakan masukkan data Anda terlebih dahulu</string>
+    <string name="title_login_page">Mari Mulai!</string>
+    <string name="name">Nama</string>
+    <string name="message_main_page">Selamat Datang</string>
+    <string name="logout">Keluar</string>
+    <string name="signup">Daftar</string>
+    <string name="story_name">Kisah Saya</string>
+    <string name="description">Pernah suatu ketika</string>
+    <string name="date">11 Desember 2003</string>
+    <string name="story_photo">Kisah Foto</string>
+    <string name="camera">KAMERA</string>
+    <string name="upload">UNGGAH</string>
+    <string name="gallery">GALERI</string>
+    <string name="description_placeholder">Deskripsi</string>
+    <string name="warning">Terjadi kesalahan. Silakan coba lagi</string>
+    <string name="hero">Gambar Utama</string>
+    <string name="setting">Pengaturan</string>
+</resources>

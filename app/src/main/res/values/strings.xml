@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BeStory</string>
+    <string name="login">Login</string>
+    <string name="message_welcome_page">Come join and share your story here with Us</string>
+    <string name="title_welcome_page">Hi, There!</string>
+    <string name="title_signup_page">Please complete your data first</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="message_login_page">Please enter your data first</string>
+    <string name="title_login_page">Let\'s start!</string>
+    <string name="name">Name</string>
+    <string name="message_main_page">Welcome</string>
+    <string name="logout">Log Out</string>
+    <string name="signup">Sign Up</string>
+    <string name="story_name">My Story</string>
+    <string name="description">Once Upon a Time</string>
+    <string name="date">11 December 2003</string>
+    <string name="story_photo">Photo\'s story</string>
+    <string name="camera">CAMERA</string>
+    <string name="upload">UPLOAD</string>
+    <string name="gallery">GALLERY</string>
+    <string name="description_placeholder">Description</string>
+    <string name="warning">There is a mistake. Please Try again</string>
+    <string name="hero">hero picture</string>
+    <string name="setting">Setting</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="maps">Maps</string>
+    <string name="retry">Try Again</string>
+</resources>
