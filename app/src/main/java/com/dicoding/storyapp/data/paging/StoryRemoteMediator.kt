@@ -15,6 +15,7 @@ import com.dicoding.storyapp.data.model.ListStoryItem
 class StoryRemoteMediator(
     private val database: StoryDatabase,
     private val apiService: ApiService,
+    private val token: String
 ) : RemoteMediator<Int, ListStoryItem>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -45,7 +46,7 @@ class StoryRemoteMediator(
         }
 
         try {
-            val responseData = apiService.getStories( page, state.config.pageSize)
+            val responseData = apiService.getStories( token, page, state.config.pageSize)
             val endOfPaginationReached = responseData.listStory.isEmpty()
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {

@@ -54,7 +54,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun observeSession() {
         viewModel.getSession().observe(this) { user ->
             if (user.isLogin) {
-                viewModel.getLocation()
+                val token = user.token
+                viewModel.getLocation("Bearer $token")
             }
         }
 

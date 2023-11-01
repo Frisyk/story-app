@@ -51,21 +51,21 @@ class UserRepository private constructor(
         return apiService.login(user)
     }
 
-    suspend fun postStory( multipartBody: MultipartBody.Part, requestBody: RequestBody): PostResponse {
-        return apiService.uploadStory( multipartBody, requestBody)
+    suspend fun postStory(token: String, multipartBody: MultipartBody.Part, requestBody: RequestBody): PostResponse {
+        return apiService.uploadStory(token, multipartBody, requestBody)
     }
 
-    suspend fun getLocation() : StoryResponse {
-        return apiService.getStoriesWithLocation()
+    suspend fun getLocation(token: String) : StoryResponse {
+        return apiService.getStoriesWithLocation(token)
     }
 
-    fun getStories(): LiveData<PagingData<ListStoryItem>> {
+    fun getStories(token: String): LiveData<PagingData<ListStoryItem>> {
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(
-                pageSize = 10
+                pageSize = 5
             ),
-            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
+            remoteMediator = StoryRemoteMediator(storyDatabase, apiService, token),
             pagingSourceFactory = {
 //                StoryPagingSource(token, apiService)
                 storyDatabase.storyDao().getAllStory()

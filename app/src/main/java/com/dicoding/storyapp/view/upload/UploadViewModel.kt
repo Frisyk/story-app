@@ -25,12 +25,12 @@ class UploadViewModel(private val repository: UserRepository): ViewModel() {
         return repository.getSession().asLiveData()
     }
 
-    fun postStory(multipartBody: MultipartBody.Part, requestBody: RequestBody) {
+    fun postStory(token: String, multipartBody: MultipartBody.Part, requestBody: RequestBody) {
         _isLoading.value = false
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                val successResponse = repository.postStory(multipartBody, requestBody)
+                val successResponse = repository.postStory(token, multipartBody, requestBody)
                 _response.value = successResponse
             } catch (e: HttpException) {
                 val errorBody = e.response()?.errorBody()?.string()

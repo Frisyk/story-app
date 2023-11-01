@@ -9,12 +9,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.ViewModelFactory
-import com.dicoding.storyapp.data.model.ListStoryItem
 import com.dicoding.storyapp.databinding.ActivityMainBinding
 import com.dicoding.storyapp.maps.MapsActivity
 import com.dicoding.storyapp.view.hero.HeroActivity
@@ -63,29 +61,26 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, HeroActivity::class.java))
                 finish()
             } else {
-                viewModel.getAllStory().observe(this) { response ->
+                val token = user.token
+                val adapter = StoryAdapter()
+                binding?.rvStory?.adapter = adapter.withLoadStateFooter(
+                    footer = LoadingAdapter {
+                        adapter.retry()
+                    }
+                )
+                viewModel.getAllStory("Bearer $token")?.observe(this) { response ->
                     if(response != null) {
-                        setUsersData(response)
+                        adapter.submitData(lifecycle, response)
                     } else {
-                        showToast("Failed to fetch data")
+                        showToast()
                     }
                 }
             }
         }
     }
 
-    private fun setUsersData(listStory: PagingData<ListStoryItem>) {
-        val adapter = StoryAdapter()
-        binding?.rvStory?.adapter = adapter.withLoadStateFooter(
-            footer = LoadingAdapter {
-                adapter.retry()
-            }
-        )
-        adapter.submitData(lifecycle, listStory)
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun showToast() {
+        Toast.makeText(this, R.string.failed_message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showLoading(isLoading: Boolean) {

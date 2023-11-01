@@ -23,12 +23,12 @@ class MapsViewModel (private val repository: UserRepository) : ViewModel() {
         return repository.getSession().asLiveData()
     }
 
-    fun getLocation() {
+    fun getLocation(token: String) {
         _isLoading.value = false
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                val successResponse = repository.getLocation()
+                val successResponse = repository.getLocation(token)
                 _response.value = successResponse
             } catch (e: HttpException) {
                 val errorBody = e.response()?.errorBody()?.string()

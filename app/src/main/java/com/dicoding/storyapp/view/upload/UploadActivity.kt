@@ -56,7 +56,7 @@ class UploadActivity : AppCompatActivity() {
             viewModel.getSession().observe(this) { user ->
                 val token = "Bearer ${user.token}"
                 if (token.isNotEmpty()) {
-                    performUpload()
+                    performUpload(token)
                 } else {
                     showToast("Failed to get user token")
                 }
@@ -98,7 +98,7 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
-    private fun performUpload() {
+    private fun performUpload(token: String) {
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
             val description = binding?.descriptionEditText?.text.toString()
@@ -110,7 +110,7 @@ class UploadActivity : AppCompatActivity() {
                 imageFile.name,
                 requestImageFile
             )
-            viewModel.postStory(multipartBody, requestBody)
+            viewModel.postStory(token, multipartBody, requestBody)
         } ?: showToast(getString(R.string.warning))
     }
 

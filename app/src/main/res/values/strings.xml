@@ -24,7 +24,8 @@
     <string name="warning">There is a mistake. Please Try again</string>
     <string name="hero">hero picture</string>
     <string name="setting">Setting</string>
-    <string name="title_activity_maps">MapsActivity</string>
-    <string name="maps">Maps</string>
+    <string name="title_activity_maps" translatable="false">MapsActivity</string>
+    <string name="maps" translatable="false">Maps</string>
     <string name="retry">Try Again</string>
+    <string name="failed_message">Failed to fetch data</string>
 </resources>

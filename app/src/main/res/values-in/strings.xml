@@ -24,4 +24,6 @@
     <string name="warning">Terjadi kesalahan. Silakan coba lagi</string>
     <string name="hero">Gambar Utama</string>
     <string name="setting">Pengaturan</string>
+    <string name="retry">Coba Lagi</string>
+    <string name="failed_message">Gagal mengambil data</string>
 </resources>

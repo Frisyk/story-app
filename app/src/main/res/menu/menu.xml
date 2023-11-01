@@ -11,12 +11,13 @@
         android:title="@string/setting"
         android:id="@+id/setting"
         android:icon="@drawable/ic_setting"
-        app:showAsAction="collapseActionView"
+        app:showAsAction="never"
+
         />
     <item
         android:title="@string/logout"
         android:id="@+id/logout"
         android:icon="@drawable/ic_logout"
-        app:showAsAction="withText"
+        app:showAsAction="never"
         />
 </menu>
