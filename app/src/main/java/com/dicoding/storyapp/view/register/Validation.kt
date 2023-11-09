@@ -2,7 +2,6 @@ package com.dicoding.storyapp.view.register
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Patterns
 import com.dicoding.storyapp.databinding.ActivityRegisterBinding
 
 object Validation {
@@ -50,10 +49,4 @@ object Validation {
         emailEditTextLayout?.editText?.addTextChangedListener(textWatcher)
         passwordEditTextLayout?.editText?.addTextChangedListener(textWatcher)
     }
-
-    fun isValidEmail(email: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
-
 }

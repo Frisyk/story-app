@@ -1,19 +1,27 @@
 package com.dicoding.storyapp.view.upload
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.ViewModelFactory
 import com.dicoding.storyapp.databinding.ActivityUploadBinding
 import com.dicoding.storyapp.view.main.MainActivity
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -21,17 +29,22 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 class UploadActivity : AppCompatActivity() {
     private var _binding: ActivityUploadBinding? = null
+    private var fusedLocationClient: FusedLocationProviderClient? = null
+
     private val binding get() = _binding
     private val viewModel by viewModels<UploadViewModel> {
         ViewModelFactory.getInstance(application)
     }
 
     private var currentImageUri: Uri? = null
+    private var location: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@UploadActivity)
 
         viewModel.isLoading.observe(this) {
             showLoading(it)
@@ -58,8 +71,17 @@ class UploadActivity : AppCompatActivity() {
                 if (token.isNotEmpty()) {
                     performUpload(token)
                 } else {
-                    showToast("Failed to get user token")
+                    showToast(getString(R.string.failed_message))
                 }
+            }
+        }
+        binding?.locationCheckBox?.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked) {
+                lifecycleScope.launch {
+                    getMyLocation()
+                }
+            } else {
+                location = null
             }
         }
     }
@@ -75,7 +97,7 @@ class UploadActivity : AppCompatActivity() {
             currentImageUri = uri
             showImage()
         } else {
-            Log.d("Photo Picker", "No media selected")
+            Log.d(TAG, getString(R.string.media_not_selected))
         }
     }
 
@@ -110,8 +132,35 @@ class UploadActivity : AppCompatActivity() {
                 imageFile.name,
                 requestImageFile
             )
-            viewModel.postStory(token, multipartBody, requestBody)
+            viewModel.postStory(token, multipartBody, requestBody, location)
         } ?: showToast(getString(R.string.warning))
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                getMyLocation()
+            }
+        }
+    private fun getMyLocation() {
+        if (ContextCompat.checkSelfPermission(
+                this.applicationContext,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient?.lastLocation?.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    this.location = location
+                } else {
+                    binding?.locationCheckBox?.isChecked = false
+                    Toast.makeText(this, getString(R.string.location_no_granted), Toast.LENGTH_SHORT ).show()
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -120,5 +169,9 @@ class UploadActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    companion object {
+        const val TAG = "Photo Picker"
     }
 }

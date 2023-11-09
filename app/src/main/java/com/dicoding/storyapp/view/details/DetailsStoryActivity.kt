@@ -27,13 +27,15 @@ class DetailsStoryActivity : AppCompatActivity() {
             intent.getParcelableExtra(EXTRA_STORY)
         }
 
-        binding?.tvname?.text = detailsStoryData?.name?.uppercase()
-        binding?.tvdetail?.text = detailsStoryData?.description
-        binding?.let {
-            binding?.ivdetail?.let { it1 ->
-                Glide.with(it.root)
-                    .load(detailsStoryData?.photoUrl)
-                    .into(it1)
+        binding?.apply {
+            tvname.text = detailsStoryData?.name?.uppercase()
+            tvdetail.text = detailsStoryData?.description
+            let {
+                binding?.ivdetail?.let { it1 ->
+                    Glide.with(it.root)
+                        .load(detailsStoryData?.photoUrl)
+                        .into(it1)
+                }
             }
         }
     }

@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.Patterns
 import androidx.appcompat.widget.AppCompatEditText
+import com.dicoding.storyapp.R
 
 class EmailView : AppCompatEditText {
     constructor(context: Context) : super(context) {
@@ -23,7 +24,7 @@ class EmailView : AppCompatEditText {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (!isValidEmail(s.toString())) {
-                    setError("Email tidak valid. Valid email: xxx@xxx.xx", null)
+                    setError(context.getString(R.string.valid_email), null)
                 } else {
                     error = null
                 }

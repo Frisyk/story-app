@@ -2,6 +2,7 @@ package com.dicoding.storyapp.data
 
 
 
+import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.ExperimentalPagingApi
@@ -21,8 +22,10 @@ import com.dicoding.storyapp.data.paging.StoryRemoteMediator
 import com.dicoding.storyapp.data.pref.UserModel
 import com.dicoding.storyapp.data.pref.UserPreference
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class UserRepository private constructor(
     private val userPreference: UserPreference,
@@ -51,9 +54,26 @@ class UserRepository private constructor(
         return apiService.login(user)
     }
 
-    suspend fun postStory(token: String, multipartBody: MultipartBody.Part, requestBody: RequestBody): PostResponse {
-        return apiService.uploadStory(token, multipartBody, requestBody)
+    suspend fun postStory(token: String, multipartBody: MultipartBody.Part, requestBody: RequestBody, location: Location?): PostResponse {
+        if (location != null) {
+            return apiService.uploadStory(
+                token,
+                multipartBody,
+                requestBody,
+                location.latitude.toString().toRequestBody("text/plain".toMediaType()),
+                location.longitude.toString().toRequestBody("text/plain".toMediaType())
+            )
+        } else {
+            return apiService.uploadStory(
+                token,
+                multipartBody,
+                requestBody,
+                null,
+                null
+            )
+        }
     }
+
 
     suspend fun getLocation(token: String) : StoryResponse {
         return apiService.getStoriesWithLocation(token)

@@ -1,5 +1,6 @@
 package com.dicoding.storyapp.view.upload
 
+import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,12 +26,12 @@ class UploadViewModel(private val repository: UserRepository): ViewModel() {
         return repository.getSession().asLiveData()
     }
 
-    fun postStory(token: String, multipartBody: MultipartBody.Part, requestBody: RequestBody) {
+    fun postStory(token: String, multipartBody: MultipartBody.Part, requestBody: RequestBody, location: Location?) {
         _isLoading.value = false
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                val successResponse = repository.postStory(token, multipartBody, requestBody)
+                val successResponse = repository.postStory(token, multipartBody, requestBody, location)
                 _response.value = successResponse
             } catch (e: HttpException) {
                 val errorBody = e.response()?.errorBody()?.string()

@@ -54,6 +54,7 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.8.0")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("androidx.room:room-common:2.6.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("junit:junit:4.12")
     testImplementation("junit:junit:4.12")

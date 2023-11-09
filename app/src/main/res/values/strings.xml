@@ -28,4 +28,9 @@
     <string name="maps" translatable="false">Maps</string>
     <string name="retry">Try Again</string>
     <string name="failed_message">Failed to fetch data</string>
+    <string name="valid_email">Email is not valid. Valid email: 123@gmail.com</string>
+    <string name="valid_password">Password must be more than 8 characters</string>
+    <string name="add_my_location">Add My Location</string>
+    <string name="media_not_selected">"No media selected"</string>
+    <string name="location_no_granted">Location No Granted</string>
 </resources>

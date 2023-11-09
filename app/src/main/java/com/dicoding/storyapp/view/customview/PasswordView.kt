@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
+import com.dicoding.storyapp.R
 
 class PasswordView : AppCompatEditText {
     constructor(context: Context) : super(context) {
@@ -22,14 +23,12 @@ class PasswordView : AppCompatEditText {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString().length < 8) {
-                    setError("Password tidak boleh kurang dari 8 karakter", null)
+                    setError(context.getString(R.string.valid_password), null)
                 } else {
                     error = null
                 }
             }
-            override fun afterTextChanged(s: Editable) {
-                // Do nothing.
-            }
+            override fun afterTextChanged(s: Editable) = Unit
         })
     }
 }
